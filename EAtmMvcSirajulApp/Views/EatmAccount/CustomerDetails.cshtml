@@ -1,0 +1,83 @@
+﻿@model EAtmMvcSirajulApp.Models.EatmAccountModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EatmAccountModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CardNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CardNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PinNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PinNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+
+    </dl>
+</div>
+<h2>Balance WithDraw </h2>
+<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm" class="form-horizontal">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <h4>Use a local account to log in.</h4>
+                <hr />
+                @Html.ValidationSummary(true)
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PinNumber, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.PinNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PinNumber)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Balance, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Balance, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Balance)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="WithDraw" class="btn btn-info" />
+                    </div>
+                </div>
+
+            }
+        </section>
+    </div>
+
+</div>
+
+    @Html.ActionLink("Back to List", "Index")
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
