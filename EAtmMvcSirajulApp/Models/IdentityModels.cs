@@ -19,7 +19,11 @@ namespace EAtmMvcSirajulApp.Models
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+
+
     {
+        public DbSet<EatmAccountModel> EatmAccounts { get; set; }
+        public DbSet<TransactionModel> Transactions { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

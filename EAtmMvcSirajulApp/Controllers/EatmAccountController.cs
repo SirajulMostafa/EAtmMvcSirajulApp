@@ -1,8 +1,9 @@
-﻿using System;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -11,10 +12,14 @@ using EAtmMvcSirajulApp.Models;
 
 namespace EAtmMvcSirajulApp.Controllers
 {
+   // [Authorize]
     public class EatmAccountController : Controller
     {
 
-        private EAtmMvcSirajulAppContext db = new EAtmMvcSirajulAppContext();
+        //private EAtmMvcSirajulAppContext db = new EAtmMvcSirajulAppContext();
+       
+        
+        private ApplicationDbContext db = new ApplicationDbContext();
 
        
 
@@ -22,7 +27,15 @@ namespace EAtmMvcSirajulApp.Controllers
         // [Authorize]
         public ActionResult Index()
         {
-            return View(db.EatmAccounts.ToList());
+           
+            if (Session["sessionModel"] !=null)
+            {
+                // return Content("session is not set");
+                return View(db.EatmAccounts.ToList());
+              
+            }
+            return RedirectToAction("CustomerLogin");
+
         }
 
         // GET: EatmAccountModels/Details/5
@@ -126,10 +139,14 @@ namespace EAtmMvcSirajulApp.Controllers
         //=======================================
         
 
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public ActionResult CustomerLogin(string returnUrl)
         {
-
+            if (IsLogged())
+            {
+                EatmAccountModel sesModel = (EatmAccountModel)Session["sessionEAccount"];
+               return RedirectToAction("CustomerDetails", "EatmAccount", new { Id = sesModel.Id });
+            }
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -140,14 +157,20 @@ namespace EAtmMvcSirajulApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CustomerLogin(EatmAccountModel model, string returnUrl)
         {
+           
+           
             if (ModelState.IsValid)
             {
                   if (IsValidCustomer(model))
                   {
-                      Session["currentCutomerCardNumber"] = model.CardNumber;
-                      Session["IsLogin"] =true;
+                     //Session["currentCutomerCardNumber"] = model.CardNumber;
+                      model = GetAccountByCardNumber(model.CardNumber);
+                      Session["sessionEAccount"] = model;
+                    EatmAccountModel  sesModel=  (EatmAccountModel)Session["sessionEAccount"];
+                    //  Session["IsLogin"] =true;
                     //return RedirectToLocal(returnUrl);
-                      return RedirectToAction("CustomerDetails","EatmAccount",new{Id= Session["currentCutomerCardNumber"].ToString()} );
+                     // return RedirectToAction("CustomerDetails","EatmAccount",new{Id= Session["currentCutomerCardNumber"].ToString()} );
+                      return RedirectToAction("CustomerDetails","EatmAccount",new{Id= sesModel.Id} );//.Success("success message");
                   }
                 else
                 {
@@ -159,6 +182,8 @@ namespace EAtmMvcSirajulApp.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+       
 
         public bool IsValidCustomer(EatmAccountModel model)
         {
@@ -174,10 +199,10 @@ namespace EAtmMvcSirajulApp.Controllers
                 return false;
         }
 
-        public EatmAccountModel GetAccountById(int id)
+        public EatmAccountModel GetAccountByCardNumber(int card)
 
         {
-            var account =db.EatmAccounts.FirstOrDefault(x => x.Id.Equals(id));
+            var account =db.EatmAccounts.FirstOrDefault(x => x.CardNumber.Equals(card));
 
             return account;
         }
@@ -233,10 +258,16 @@ namespace EAtmMvcSirajulApp.Controllers
             return View(eatmAccountModel);
         }
 
+        public bool IsLogged()
+        {
+            return Session["sessionEAccount"]!= null;
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CustomerDetails([Bind(Include = "Id,Balance")] EatmAccountModel eatmAccountModel)
         {
+           
             if (ModelState.IsValid)
             {
                 //var ent = db.Set<Ingredient>().SingleOrDefault(o => o.id == input.id)
@@ -244,7 +275,14 @@ namespace EAtmMvcSirajulApp.Controllers
                 if (ent != null)
                 {
                     ent.Balance = ent.Balance - eatmAccountModel.Balance;
-
+                    //update or add transaction
+                    var transaction = new TransactionModel();
+                    transaction.EatmAccountModelId = ent.Id;
+                    transaction.WithdrawalAmount = eatmAccountModel.Balance;
+                    transaction.TransactionDate = DateTime.Now;
+                    db.Transactions.Add(transaction);
+                    // db.Transactions.AddOrUpdate(transaction);
+                    // db.SaveChanges();
                     db.Entry(ent).State = EntityState.Modified;
                     db.SaveChanges();
                     // return RedirectToAction();
@@ -260,3 +298,4 @@ namespace EAtmMvcSirajulApp.Controllers
 
     }
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

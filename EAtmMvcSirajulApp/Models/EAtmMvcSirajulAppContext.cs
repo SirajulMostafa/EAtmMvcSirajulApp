@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -20,5 +20,6 @@ namespace EAtmMvcSirajulApp.Models
         }
 
         public DbSet<EatmAccountModel> EatmAccounts { get; set; }
+        public DbSet<TransactionModel> Transactions { get; set; }
     }
-}
+}*/
