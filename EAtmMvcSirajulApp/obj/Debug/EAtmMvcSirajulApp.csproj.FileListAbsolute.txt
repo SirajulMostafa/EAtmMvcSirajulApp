@@ -65,9 +65,8 @@ C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\bin\Microsoft.AI
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\bin\Microsoft.AI.Web.xml
+C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.Migrations.InitialCreate.resources
+C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.csproj.GenerateResource.Cache
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.csproj.CoreCompileInputs.cache
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.dll
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.pdb
-C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.Migrations.InitialCreate.resources
-C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.csproj.GenerateResource.Cache
-C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.csprojResolveAssemblyReference.cache

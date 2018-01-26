@@ -222,16 +222,7 @@ namespace EAtmMvcSirajulApp.Controllers
                 return RedirectToAction("CustomerDetails", "EatmAccount");
             }
         }
-        //========================================
-
-
-
-
-
-
-
-
-
+        //=======================================
 
 
         protected override void Dispose(bool disposing)
@@ -245,17 +236,23 @@ namespace EAtmMvcSirajulApp.Controllers
 
         public ActionResult CustomerDetails(int? id)
         {
+            if (IsLogged())
+            {
+                var sesModel2 = (EatmAccountModel)Session["sessionEAccount"];
+                 id =sesModel2.Id;
 
-            if (id==null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+               
+                var eatmAccountModel = db.EatmAccounts.Find(id);
+                if (eatmAccountModel == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(eatmAccountModel);
             }
-            var eatmAccountModel = db.EatmAccounts.Find(id);
-            if (eatmAccountModel == null)
+            else
             {
-                return HttpNotFound();
+               return  RedirectToAction("CustomerLogin");
             }
-            return View(eatmAccountModel);
         }
 
         public bool IsLogged()
