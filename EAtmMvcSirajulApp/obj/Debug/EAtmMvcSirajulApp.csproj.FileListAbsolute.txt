@@ -70,3 +70,4 @@ C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMv
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.csproj.CoreCompileInputs.cache
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.dll
 C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.pdb
+C:\Users\siraj\Source\Repos\EAtmMvcSirajulApp\EAtmMvcSirajulApp\obj\Debug\EAtmMvcSirajulApp.csprojResolveAssemblyReference.cache

@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using EAtmMvcSirajulApp.Models;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  using Microsoft.Ajax.Utilities;
 
 namespace EAtmMvcSirajulApp.Controllers
 {
@@ -271,6 +272,13 @@ namespace EAtmMvcSirajulApp.Controllers
                 var ent = db.EatmAccounts.SingleOrDefault(o => o.Id.Equals(eatmAccountModel.Id));
                 if (ent != null)
                 {
+                    if (!IsValidForTransaction(ent.Id))
+                    {
+                      ModelState.AddModelError("", "You can not  withdraw more than 3 times in a day");
+                      return View(ent);
+
+                    }
+                   
                     ent.Balance = ent.Balance - eatmAccountModel.Balance;
                     //update or add transaction
                     var transaction = new TransactionModel();
@@ -284,6 +292,8 @@ namespace EAtmMvcSirajulApp.Controllers
                     db.SaveChanges();
                     // return RedirectToAction();
                     return View(ent);
+
+          
                 }
 
                 //  db.EatmAccounts.FirstOrDefault(eatmAccountModel);
@@ -291,6 +301,22 @@ namespace EAtmMvcSirajulApp.Controllers
             }
             return View(eatmAccountModel);
         }
+
+        private bool IsValidForTransaction(int id)
+        {
+
+
+            var todaysDate = DateTime.Now.Date.Day;             
+            var recordCount = db.Transactions.Count(t=> t.EatmAccountModelId == id && t.TransactionDate.Value.Day==todaysDate);
+            if (recordCount<3)
+            {
+                return true;
+            }
+            return false;
+
+        }
+
+
 
 
     }
